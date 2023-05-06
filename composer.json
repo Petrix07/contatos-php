@@ -1,0 +1,17 @@
+{
+    "name": "luizf/contatos-php",
+    "autoload": {
+        "psr-4": {
+            "Luizf\\ContatosPhp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Petrixx",
+            "email": "75099491+Petrix07@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "doctrine/orm": "^2.15"
+    }
+}
