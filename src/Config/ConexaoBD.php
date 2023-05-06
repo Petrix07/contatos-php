@@ -2,9 +2,6 @@
 
 namespace App\Config;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
-require_once __DIR__ . '/../../src/Model/Pessoa.php';
-
 use \Doctrine\DBAL\Configuration,
     \Doctrine\DBAL\DriverManager,
     \Doctrine\DBAL\Schema\Table,

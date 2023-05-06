@@ -3,12 +3,11 @@
 namespace App;
 
 require_once __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/Config/ConexaoBD.php';
 
 use App\Config\ConexaoBD,
     App\Model\Pessoa;
 
-$c = new ConexaoBD;
+$c = new ConexaoBD();
 
 
 //EntityManager do Doctrine

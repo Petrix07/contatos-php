@@ -3,7 +3,7 @@
         'name' => 'luizf/contatos-php',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'dd819cd6acaa8d78f8281efc8c8a27d581cfa1aa',
+        'reference' => '8be40b0f4a23ae493a1adbae8858adfad9ba32e4',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -121,9 +121,18 @@
         'luizf/contatos-php' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'dd819cd6acaa8d78f8281efc8c8a27d581cfa1aa',
+            'reference' => '8be40b0f4a23ae493a1adbae8858adfad9ba32e4',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'monolog/monolog' => array(
+            'pretty_version' => '2.9.1',
+            'version' => '2.9.1.0',
+            'reference' => 'f259e2b15fb95494c83f52d3caad003bbf5ffaa1',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../monolog/monolog',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -164,6 +173,7 @@
             'dev_requirement' => false,
             'provided' => array(
                 0 => '1.0|2.0|3.0',
+                1 => '1.0.0 || 2.0.0 || 3.0.0',
             ),
         ),
         'psr/simple-cache-implementation' => array(

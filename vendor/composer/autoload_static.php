@@ -38,9 +38,9 @@ class ComposerStaticInit46647ab76a868eef11387f91d7c2fa67
             'Psr\\Container\\' => 14,
             'Psr\\Cache\\' => 10,
         ),
-        'L' => 
+        'M' => 
         array (
-            'Luizf\\ContatosPhp\\' => 18,
+            'Monolog\\' => 8,
         ),
         'D' => 
         array (
@@ -55,6 +55,10 @@ class ComposerStaticInit46647ab76a868eef11387f91d7c2fa67
             'Doctrine\\Common\\Cache\\' => 22,
             'Doctrine\\Common\\Annotations\\' => 28,
             'Doctrine\\Common\\' => 16,
+        ),
+        'A' => 
+        array (
+            'App\\' => 4,
         ),
     );
 
@@ -119,9 +123,9 @@ class ComposerStaticInit46647ab76a868eef11387f91d7c2fa67
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
-        'Luizf\\ContatosPhp\\' => 
+        'Monolog\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/src',
+            0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
         'Doctrine\\Persistence\\' => 
         array (
@@ -167,6 +171,10 @@ class ComposerStaticInit46647ab76a868eef11387f91d7c2fa67
         array (
             0 => __DIR__ . '/..' . '/doctrine/common/src',
             1 => __DIR__ . '/..' . '/doctrine/event-manager/src',
+        ),
+        'App\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
         ),
     );
 

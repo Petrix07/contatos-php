@@ -2,7 +2,7 @@
     "name": "luizf/contatos-php",
     "autoload": {
         "psr-4": {
-            "Luizf\\ContatosPhp\\": "src/"
+            "App\\": "src/"
         }
     },
     "authors": [
@@ -16,6 +16,7 @@
         "doctrine/dbal": "^3.6",
         "doctrine/cache": "^2.2",
         "symfony/cache": "^6.0",
-        "doctrine/annotations": "^2.0"
+        "doctrine/annotations": "^2.0",
+        "monolog/monolog": "^2.9"
     }
 }
