@@ -1,8 +1,17 @@
 <?php
 
 require __DIR__ . '/vendor/autoload.php';
-require __DIR__ . '/routes.php';
 
-use App\Controller\Pages\Home;
+use App\Http\Router,
+    App\Utils\View;
 
-echo Home::getHome();
+define('URL', 'http://localhost/contatos-php');
+
+View::init(['URL' => URL]);
+
+$obRouter = new Router(URL);
+
+include __DIR__ . '/routes/pages.php';
+
+$obRouter->run()
+    ->sendResponse();

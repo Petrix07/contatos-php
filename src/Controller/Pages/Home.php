@@ -11,13 +11,17 @@ use App\Utils\View;
 class Home extends Page
 {
 
+    /**
+     * Retorna a página de Home
+     * @return string 
+     */
     public static function getHome(): string
     {
-        $sContent = View::render('pages/home', [
+        $content = View::render('pages/home', [
             'title'       => 'Bem vindo!',
             'description' => 'Página inicial da aplicação'
         ]);
 
-        return parent::getPage('Home', $sContent);
+        return parent::getPage('Home', $content);
     }
 }

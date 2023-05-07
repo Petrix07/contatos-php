@@ -7,33 +7,48 @@ namespace App\Utils;
  */
 class View
 {
+
+    /**
+     * Variáveis padrões da View
+     * @var array
+     */
+    private static $vars = [];
+
+    /**
+     * Defini os dados da classe
+     * @param array $vars
+     */
+    public static function init($vars = []) {
+        self::$vars = $vars;
+    }
+
     /**
      * Retorna o conteúdo de uma view
-     * @param string $sView
+     * @param string $view
      * @return string
      */
-    private static function getContentView($sView): string
+    private static function getContentView(string $view): string
     {
-        $sFile = __DIR__ . "/../../resources/view/$sView.html";
-        return file_exists($sFile) ? file_get_contents($sFile) : '<h1> Página não encontrada</h1>';
+        $file = __DIR__ . "/../../resources/view/$view.html";
+        return file_exists($file) ? file_get_contents($file) : '<h1> Página não encontrada</h1>';
     }
 
     /**
      * Retorna o conteúdo renderizado de uma view
-     * @param string $sView
-     * @param array $aVars
+     * @param string $view
+     * @param array $vars
      * @return string
      */
-    public static function render($sView, array $aVars = []): string
+    public static function render($view, array $vars = []): string
     {
-
-        $aKeys = array_keys($aVars);
-        $aKeys = array_map(function($sItem) {
+        $content = self::getContentView($view);
+        $vars    = array_merge(self::$vars, $vars);
+        $keys    = array_keys($vars);
+        $keys    = array_map(function($sItem) {
             return '{{' . $sItem . '}}';
-        }, $aKeys);
+        }, $keys);
 
-        $sContentView = self::getContentView($sView);
 
-        return str_replace($aKeys, array_values($aVars), $sContentView);
+        return str_replace($keys, array_values($vars), $content);
     }
 }

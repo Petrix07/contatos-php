@@ -9,6 +9,7 @@ abstract class Page
 
     /**
      * Retorna o header da aplicação
+     * @return string 
      */
     public static function getHeader(): string {
         return View::render('pages/header');
@@ -16,12 +17,13 @@ abstract class Page
 
     /**
      * Retorna o conteúdo da view
+     * @return string 
      */
-    public static function getPage(string $sTitle, string $sContent): string {
+    public static function getPage(string $title, string $content): string {
         return View::render('pages/page', [
-            'title'   => $sTitle,
+            'title'   => $title,
             'header'  => self::getHeader(),
-            'content' => $sContent
+            'content' => $content
         ]);
     }
 }
