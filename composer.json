@@ -18,5 +18,8 @@
         "symfony/cache": "^6.0",
         "doctrine/annotations": "^2.0",
         "monolog/monolog": "^2.9"
+    },
+    "require-dev": {
+        "php-debug/debugger": "^0.1.0"
     }
 }

@@ -5,15 +5,14 @@
  */
 function render($sPage)
 {
-    switch ($sPage) {
-        case 'home':
-           // return (new App\Controller\ControllerHome)->render();
-        case 'pessoa':
-          #  return (new App\Controller\ControllerConsultaPessoa)->render();
-        case 'contato':
-          #  return (new App\Controller\ControllerConsultaContato)->render();
-          default:
-        #   return (new App\Controller\ControllerPageNotFound)->render();
-    }
-
+  switch ($sPage) {
+    case 'home':
+      // return (new App\Controller\ControllerHome)->render();
+    case 'pessoa':
+      #  return (new App\Controller\ControllerConsultaPessoa)->render();
+    case 'contato':
+      #  return (new App\Controller\ControllerConsultaContato)->render();
+    default:
+      return (new App\Controller\ControllerPageNotFound)->render();
+  }
 }

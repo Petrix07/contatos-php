@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "787f32dcc75f80a83f347518a30be59c",
+    "content-hash": "abf451a8282de69d15759e3e12bf4409",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -2271,7 +2271,52 @@
             "time": "2023-01-13T08:34:10+00:00"
         }
     ],
-    "packages-dev": [],
+    "packages-dev": [
+        {
+            "name": "php-debug/debugger",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yuncopy/debugger.git",
+                "reference": "56f4d1403c5fb49d5be3c1257e82342f17a13aab"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yuncopy/debugger/zipball/56f4d1403c5fb49d5be3c1257e82342f17a13aab",
+                "reference": "56f4d1403c5fb49d5be3c1257e82342f17a13aab",
+                "shasum": ""
+            },
+            "type": "php-extension",
+            "autoload": {
+                "psr-4": {
+                    "Debugger\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ajay",
+                    "email": "yuncopy@sina.com"
+                }
+            ],
+            "description": "The debugger  for the wzphp framework",
+            "keywords": [
+                "debugger",
+                "framework",
+                "redis",
+                "wzphp"
+            ],
+            "support": {
+                "forum": "https://github.com/yuncopy",
+                "issues": "https://github.com/yuncopy/debugger/issues",
+                "source": "https://github.com/yuncopy/debugger"
+            },
+            "time": "2019-02-20T08:23:07+00:00"
+        }
+    ],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": [],

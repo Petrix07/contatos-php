@@ -55,6 +55,7 @@ class ComposerStaticInit46647ab76a868eef11387f91d7c2fa67
             'Doctrine\\Common\\Cache\\' => 22,
             'Doctrine\\Common\\Annotations\\' => 28,
             'Doctrine\\Common\\' => 16,
+            'Debugger\\' => 9,
         ),
         'A' => 
         array (
@@ -171,6 +172,10 @@ class ComposerStaticInit46647ab76a868eef11387f91d7c2fa67
         array (
             0 => __DIR__ . '/..' . '/doctrine/common/src',
             1 => __DIR__ . '/..' . '/doctrine/event-manager/src',
+        ),
+        'Debugger\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-debug/debugger/src',
         ),
         'App\\' => 
         array (
