@@ -5,7 +5,8 @@ namespace App\Http;
 use \Closure,
     \Exception,
     \Throwable,
-    \ReflectionFunction;
+    \ReflectionFunction,
+    \App\Http\Response;
 
 /**
  * Classe Router
@@ -53,7 +54,7 @@ class Router
     /**
      * Define o prefixo das rotas
      */
-    private function setPrefix()
+    private function setPrefix(): void
     {
         $parseUrl     = parse_url($this->url);
         $this->prefix = $parseUrl['path'] ?? '';
@@ -64,8 +65,9 @@ class Router
      * @param string $method
      * @param string $route
      * @param array $params
+     * @return array
      */
-    public function addRoute(string $method, string $route, $params = [])
+    public function addRoute(string $method, string $route, $params = []): array
     {
         foreach ($params as $key => $value) {
             if ($value instanceof Closure) {
@@ -85,15 +87,17 @@ class Router
 
         /* Padrão de validação da IRL */
         $patternRoute = '/^' . str_replace('/', '\/', $route) . '$/';
-        $this->routes[$patternRoute][$method] = $params;
+
+        return $this->routes[$patternRoute][$method] = $params;
     }
 
     /**
      * Define uma rota de GET
      * @param string $route
      * @param array $param
+     * @return array
      */
-    public function get(string $route, $params = [])
+    public function get(string $route, $params = []): array
     {
         return $this->addRoute('GET', $route, $params);
     }
@@ -103,7 +107,7 @@ class Router
      * @param string $route
      * @param array $param
      */
-    public function post(string $route, $param = [])
+    public function post(string $route, $param = []): array
     {
         return $this->addRoute('POST', $route, $param);
     }
@@ -112,8 +116,9 @@ class Router
      * Define uma rota de PUT
      * @param string $route
      * @param array $param
+     * @return array
      */
-    public function put(string $route, $param = [])
+    public function put(string $route, $param = []): array
     {
         return $this->addRoute('PUT', $route, $param);
     }
@@ -122,8 +127,9 @@ class Router
      * Define uma rota de DELETE
      * @param string $route
      * @param array $param
+     * @return array
      */
-    public function delete(string $route, $param = [])
+    public function delete(string $route, $param = []): array
     {
         return $this->addRoute('DELETE', $route, $param);
     }
@@ -142,8 +148,9 @@ class Router
 
     /**
      * Retorna os dados da rota atual
+     * @return array
      */
-    private function getRoute()
+    private function getRoute(): array
     {
         $uri = $this->getUri();
         $httpMethod = $this->request->getHttpMethod();
@@ -155,6 +162,7 @@ class Router
                     $keys = $methods[$httpMethod]['variables'];
                     $methods[$httpMethod]['variables']            = array_combine($keys, $matches);
                     $methods[$httpMethod]['variables']['request'] = $this->request;
+
                     return $methods[$httpMethod];
                 }
                 throw new Exception("Método não permitido", 405);
@@ -166,6 +174,7 @@ class Router
     /**
      * Executa a rota atual
      * @tutorial - Emite excessõs caso o caminho informado não possua um controlador respectivo
+     * @return Response | Exception
      */
     public function run()
     {
