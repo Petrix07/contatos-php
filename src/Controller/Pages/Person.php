@@ -2,10 +2,11 @@
 
 namespace App\Controller\Pages;
 
-use App\Http\Request;
-use \App\Utils\View,
+use \App\Http\Request,
+    \App\Utils\View,
     \App\Config\ConnectionBD,
-    \App\Model\Person as ModelPerson;
+    \App\Model\Person as EntityPerson,
+    Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 /**
  * Controller para a entidade Person
@@ -25,6 +26,7 @@ class Person extends Page
         if (count($people)) {
             foreach ($people as $person) {
                 $contentPeople .= View::render('pages/person', [
+                    'id'   => $person->getCpf(),
                     'name' => $person->getName(),
                     'cpf'  => $person->getCpf(),
                 ]);
@@ -44,14 +46,14 @@ class Person extends Page
     {
         $connection    = self::getConnection();
         $entityManager = $connection->getEntityManager();
-        $personRepo    = $entityManager->getRepository(ModelPerson::class);
+        $personRepo    = $entityManager->getRepository(EntityPerson::class);
         return  $personRepo->findAll();
     }
 
     /**
      * Retorna a página de cadastro de uma nova person
      */
-    public static function getPersonRegistrationPage(): string
+    public static function  getPersonRegistrationPage(): string
     {
         $sContent = View::render('pages/personRegistration', [
             'title'       => 'Cadastrar uma nova pessoa.',
@@ -59,26 +61,35 @@ class Person extends Page
             'nameAction'  => 'Cadastrar',
         ]);
 
-        return parent::getPage('Home', $sContent);
+        return parent::getPage('Cadastrar pessoa', $sContent);
     }
 
     /**
      * Cadastra uma nova entidade de person
      * @param Request $request
      */
-    public static function insertPerson(Request $request): string
+    public static function getPageInsertPerson(Request $request): string
     {
-        $newPerson = new ModelPerson();
+        $newPerson = new EntityPerson();
         self::loadPersonInformationByRequest($newPerson, $request);
         $connectiononnection = self::getConnection();
         $entityManager       = $connectiononnection->getEntityManager();
-        $entityManager->persist($newPerson);
-        $entityManager->flush();
+        $titleMsg            = 'Registro incluído com sucesso!';
+        $descriptionAction   = 'Acesse a consulta de pessoas para visualizar o novo registro inserido.';
+        $bgType              = 'bg-success';
+        try {
+            $entityManager->persist($newPerson);
+            $entityManager->flush();
+        } catch (\Throwable $th) {
+            $titleMsg          = 'Ocorreram problemas durante a inclusão do registro.';
+            $descriptionAction = $th instanceof UniqueConstraintViolationException ? 'O CPF informado já está cadastrado a outro registro. Tente realizar a inclusão novamente informando outro CPF' : 'Não foi possível realizar a inclusão';
+            $bgType            = 'bg-warning';
+        }
 
         $sContent = View::render('pages/message', [
-            'title'       => 'Registro incluído com sucesso!',
-            'description' => 'Acesse a consulta de pessoas para visualizar o novo registro inserido.',
-            'bgCard'      => 'bg-success',
+            'title'       => $titleMsg,
+            'description' => $descriptionAction,
+            'bgCard'      => $bgType,
             'path'        => '/pessoas',
             'nameAction'  => 'Acessar Consulta',
         ]);
@@ -86,7 +97,7 @@ class Person extends Page
         return parent::getPage('Home', $sContent);
     }
 
-    private static function loadPersonInformationByRequest(ModelPerson $person, $request)
+    private static function loadPersonInformationByRequest(EntityPerson $person, $request)
     {
         $postVars = $request->getPostVars();
         $person->setName($postVars['name']);
@@ -96,5 +107,14 @@ class Person extends Page
     private static function getConnection(): ConnectionBD
     {
         return new ConnectionBD();
+    }
+
+    /**
+     * Retorna o formulário de edição de pessoas
+     * @param Request $request
+     * @param int $id
+     */
+    public static function getEditPersonPage($request, $id) {
+        return '';
     }
 }

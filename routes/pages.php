@@ -35,7 +35,14 @@ $obRouter->get('/pessoas/cadastrar', [
 /* Rota de pessoas */
 $obRouter->post('/pessoas/cadastrar', [
     function ($request) {
-        return new Response(200, Pages\Person::insertPerson($request));
+        return new Response(200, Pages\Person::getPageInsertPerson($request));
+    }
+]);
+
+/* Rota de pessoas */
+$obRouter->post('/pessoas/alterar/{$id}', [
+    function ($request, $id) {
+        return new Response(200, Pages\Person::getEditPersonPage($request, $id));
     }
 ]);
 
