@@ -27,7 +27,7 @@ class Person extends Page
         if (count($people)) {
             foreach ($people as $person) {
                 $contentPeople .= View::render('pages/person/person', [
-                    'id'   => $person->getCpf(),
+                    'id'   => $person->getId(),
                     'name' => $person->getName(),
                     'cpf'  => $person->getCpf(),
                 ]);
@@ -65,6 +65,8 @@ class Person extends Page
         $sContent = View::render('pages/person/form', [
             'title'       => 'Cadastrar uma nova pessoa.',
             'description' => 'Preencha os campos abaixo para gerar um novo registro de pessoa.',
+            'name'        => null,
+            'cpf'         => null,
             'nameAction'  => 'Cadastrar',
         ]);
 
@@ -105,6 +107,9 @@ class Person extends Page
         return parent::getPage('Home', $sContent);
     }
 
+    /**
+     * Carrega o objeto Pessoa com base nos dados presentes no POST da request
+     */
     private static function loadPersonInformationByRequest(EntityPerson $person, $request)
     {
         $postVars = $request->getPostVars();
@@ -125,6 +130,7 @@ class Person extends Page
      * Retorna o formulário de edição de pessoas
      * @param Request $request
      * @param int $id
+     * @return string
      */
     public static function getEditPersonPage($request, $id)
     {
