@@ -25,7 +25,7 @@ class Person extends Page
         $contentPeople = '';
         if (count($people)) {
             foreach ($people as $person) {
-                $contentPeople .= View::render('pages/person', [
+                $contentPeople .= View::render('pages/person/person', [
                     'id'   => $person->getCpf(),
                     'name' => $person->getName(),
                     'cpf'  => $person->getCpf(),
@@ -33,7 +33,7 @@ class Person extends Page
             }
         }
 
-        $sContent = View::render('pages/people', [
+        $sContent = View::render('pages/person/people', [
             'title'       => 'Consulta de Pessoas',
             'description' => 'Segue abaixo todas as pessoas cadastradas no sistema.',
             'people'      => $contentPeople
@@ -53,9 +53,9 @@ class Person extends Page
     /**
      * Retorna a página de cadastro de uma nova person
      */
-    public static function  getPersonRegistrationPage(): string
+    public static function getFormPerson(): string
     {
-        $sContent = View::render('pages/personRegistration', [
+        $sContent = View::render('pages/person/form', [
             'title'       => 'Cadastrar uma nova pessoa.',
             'description' => 'Preencha os campos abaixo para gerar um novo registro de pessoa.',
             'nameAction'  => 'Cadastrar',

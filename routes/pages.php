@@ -28,7 +28,7 @@ $obRouter->get('/pessoas', [
 /* Rota de pessoas */
 $obRouter->get('/pessoas/cadastrar', [
     function () {
-        return new Response(200, Pages\Person::getPersonRegistrationPage());
+        return new Response(200, Pages\Person::getFormPerson());
     }
 ]);
 
