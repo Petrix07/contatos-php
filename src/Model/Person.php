@@ -2,8 +2,7 @@
 
 namespace App\Model;
 
-use \Doctrine\ORM\Mapping as ORM,
-    \App\Config\ConnectionBD;
+use \Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity

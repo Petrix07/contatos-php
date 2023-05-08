@@ -42,7 +42,7 @@ $obRouter->post('/pessoas/cadastrar', [
 /* Rota buscar o formulário de alteração de pessoa  */
 $obRouter->get('/pessoas/visualizar/{id}', [
     function ($id) {
-        return new Response(200, Pages\Person::getDetailPerson($id));
+        return new Response(200, Pages\Person::getDetailsPerson($id));
     }
 ]);
 
@@ -74,16 +74,16 @@ $obRouter->post('/pessoas/deletar/{id}/delete', [
     }
 ]);
 
-/* Rota de contatos */
+/* Rota da consulta contatos */
 $obRouter->get('/contatos', [
     function () {
         return new Response(200, Pages\Contact::getPageContacts());
     }
 ]);
 
-/* Rota dinâmica */
-$obRouter->get('/pagina/{idPagina}/{acao}', [
-    function ($idPagina, $acao) {
-        return new Response(200, 'Página' . $idPagina . $acao);
+/* Rota da visualização do contato */
+$obRouter->get('/contatos/visualizar/{id}', [
+    function ($id) {
+        return new Response(200, Pages\Contact::getDetailsContact($id));
     }
 ]);

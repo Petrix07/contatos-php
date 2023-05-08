@@ -4,7 +4,6 @@ namespace App\Controller\Pages;
 
 use \App\Http\Request,
     \App\Utils\View,
-    \App\Config\ConnectionBD,
     \App\Model\Person as EntityPerson;
 
 /**
@@ -16,7 +15,7 @@ class Person extends Page
 {
 
     /**
-     * Retorna a tela de consulta de people
+     * Retorna a tela de consulta de Pessoas
      * @return string
      */
     public static function getPagePeople(): string
@@ -44,7 +43,7 @@ class Person extends Page
     }
 
     /**
-     * Retorna a tela de consulta de people
+     * Retorna a tela de consulta de Pessoas contendo os registros filtrados
      * @param Request $request
      * @return string
      */
@@ -148,15 +147,6 @@ class Person extends Page
     }
 
     /**
-     * Retorna um objeto de conexão com o banco de dados
-     * @return ConnectionBD
-     */
-    private static function getConnection(): ConnectionBD
-    {
-        return new ConnectionBD();
-    }
-
-    /**
      * Retorna o formulário de edição de pessoas
      * @param int $id
      * @return string
@@ -207,7 +197,7 @@ class Person extends Page
      * @param int $id
      * @return string
      */
-    public static function getDetailPerson(int $id): string
+    public static function getDetailsPerson(int $id): string
     {
         $connection    = self::getConnection();
         $entityManager = $connection->getEntityManager();

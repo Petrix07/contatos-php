@@ -88,6 +88,9 @@ class ConnectionBD
         if (!$this->SchemaManager->tablesExist('person')) {
             $this->createTablePerson();
         }
+        if (!$this->SchemaManager->tablesExist('contact')) {
+            $this->createTableContact();
+        }
     }
 
     /**
@@ -100,6 +103,21 @@ class ConnectionBD
         $table->addColumn('name', 'string',  ['length'   => 255]);
         $table->addColumn('cpf',  'string',  ['length'   => 14]);
         $table->setPrimaryKey(['id']);
+        $sqls = $this->DatabasePlataform->getCreateTableSQL($table);
+        foreach ($sqls as $sql) {
+            $this->Connection->executeStatement($sql);
+        }
+    }
+
+    private function createTableContact()
+    {
+        $table = new Table('contact');
+        $table->addColumn('id',          'integer', ['unsigned' => true, 'autoincrement' => true]);
+        $table->addColumn('type',        'integer');
+        $table->addColumn('description', 'string',  ['length'   => 255]);
+        $table->addColumn('person_id',   'integer', ['unsigned' => true]);
+        $table->setPrimaryKey(['id']);
+        $table->addForeignKeyConstraint('person', ['person_id'], ['id'], ['onDelete' => 'CASCADE']);
         $sqls = $this->DatabasePlataform->getCreateTableSQL($table);
         foreach ($sqls as $sql) {
             $this->Connection->executeStatement($sql);
