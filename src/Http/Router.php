@@ -142,7 +142,7 @@ class Router
     {
         $uri = $this->request->getUri();
         $xUri = strlen($this->prefix) ? explode($this->prefix, $uri) : [$uri];
-
+        
         return end($xUri);
     }
 

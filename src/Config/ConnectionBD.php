@@ -7,6 +7,7 @@ use \Doctrine\DBAL\Configuration,
     \Doctrine\DBAL\Schema\Table,
     \Doctrine\ORM\EntityManager,
     \Doctrine\ORM\Tools\Setup;
+use Doctrine\ORM\Mapping\Entity;
 
 /**
  * Classe responsável por criar a conexão com o banco de dados 
@@ -27,7 +28,10 @@ class ConnectionBD
         $this->createTabelasSistema();
     }
 
-    public function getEntityManager()
+    /**
+     * @return EntityManager
+     */
+    public function getEntityManager(): EntityManager
     {
         $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . "/src"), true, null, null, false);
         $entityManager = EntityManager::create($this->Connection, $config);
@@ -41,7 +45,7 @@ class ConnectionBD
     private function createConnection(): void
     {
         $conf             = new Configuration();
-        $dbParams        = $this->getConfiguracoesBanco();
+        $dbParams         = $this->getConfiguracoesBanco();
         $this->Connection = DriverManager::getConnection($dbParams, $conf);
     }
 
@@ -89,13 +93,12 @@ class ConnectionBD
     /**
      * Cria a tabela para a entidade "Pessoa"
      */
-    private function createTablePerson()
+    private function createTablePerson(): void
     {
         $table = new Table('person');
         $table->addColumn('id',   'integer', ['unsigned' => true, 'autoincrement' => true]);
         $table->addColumn('name', 'string',  ['length'   => 255]);
         $table->addColumn('cpf',  'string',  ['length'   => 14]);
-        $table->addUniqueIndex(array('cpf'));
         $table->setPrimaryKey(['id']);
         $sqls = $this->DatabasePlataform->getCreateTableSQL($table);
         foreach ($sqls as $sql) {

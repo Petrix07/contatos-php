@@ -5,8 +5,7 @@ namespace App\Controller\Pages;
 use \App\Http\Request,
     \App\Utils\View,
     \App\Config\ConnectionBD,
-    \App\Model\Person as EntityPerson,
-    Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+    \App\Model\Person as EntityPerson;
 
 /**
  * Controller para a entidade Person
@@ -34,13 +33,13 @@ class Person extends Page
             }
         }
 
-        $sContent = View::render('pages/person/people', [
+        $content = View::render('pages/person/people', [
             'title'       => 'Consulta de Pessoas',
             'description' => 'Segue abaixo todas as pessoas cadastradas no sistema.',
             'people'      => $contentPeople
         ]);
 
-        return parent::getPage('Consulta de Pessoas', $sContent);
+        return parent::getPage('Consulta de Pessoas', $content);
     }
 
     /**
@@ -60,9 +59,9 @@ class Person extends Page
      * Retorna a página de cadastro de uma nova pessoa
      * @return string
      */
-    public static function getFormPerson(): string
+    public static function getNewPerson(): string
     {
-        $sContent = View::render('pages/person/form', [
+        $content = View::render('pages/person/form', [
             'title'       => 'Cadastrar uma nova pessoa.',
             'description' => 'Preencha os campos abaixo para gerar um novo registro de pessoa.',
             'name'        => null,
@@ -70,7 +69,7 @@ class Person extends Page
             'nameAction'  => 'Cadastrar',
         ]);
 
-        return parent::getPage('Cadastrar pessoa', $sContent);
+        return parent::getPage('Cadastrar pessoa', $content);
     }
 
     /**
@@ -84,27 +83,18 @@ class Person extends Page
         self::loadPersonInformationByRequest($newPerson, $request);
         $connectiononnection = self::getConnection();
         $entityManager       = $connectiononnection->getEntityManager();
-        $titleMsg            = 'Registro incluído com sucesso!';
-        $descriptionAction   = 'Acesse a consulta de pessoas para visualizar o novo registro inserido.';
-        $bgType              = 'bg-success';
-        try {
-            $entityManager->persist($newPerson);
-            $entityManager->flush();
-        } catch (\Throwable $th) {
-            $titleMsg          = 'Ocorreram problemas durante a inclusão do registro.';
-            $descriptionAction = $th instanceof UniqueConstraintViolationException ? 'O CPF informado já está cadastrado a outro registro. Tente realizar a inclusão novamente informando outro CPF' : 'Não foi possível realizar a inclusão';
-            $bgType            = 'bg-warning';
-        }
+        $entityManager->persist($newPerson);
+        $entityManager->flush();
 
-        $sContent = View::render('pages/message', [
-            'title'       => $titleMsg,
-            'description' => $descriptionAction,
-            'bgCard'      => $bgType,
+        $content = View::render('pages/message', [
+            'title'       => 'Registro incluído com sucesso!',
+            'description' => 'Acesse a consulta de pessoas para visualizar o novo registro inserido.',
+            'bgCard'      => 'bg-success',
             'path'        => '/pessoas',
             'nameAction'  => 'Acessar Consulta',
         ]);
 
-        return parent::getPage('Home', $sContent);
+        return parent::getPage('Home', $content);
     }
 
     /**
@@ -132,8 +122,44 @@ class Person extends Page
      * @param int $id
      * @return string
      */
-    public static function getEditPersonPage($request, $id)
+    public static function getEditPerson(int $id): string
     {
-        return '';
+        $connection    = self::getConnection();
+        $entityManager = $connection->getEntityManager();
+        $person        = $entityManager->getRepository(EntityPerson::class)->find($id);;
+        $content = View::render('pages/person/form', [
+            'title'       => 'Alterar informações da pessoa.',
+            'description' => 'Preencha os campos abaixo para alterar as informações de pessoa.',
+            'name'        => $person->getName(),
+            'cpf'         => $person->getCpf(),
+            'nameAction'  => 'Editar',
+        ]);
+
+        return parent::getPage('Editar pessoa', $content);
+    }
+
+    /**
+     * Edita a pessoa informada
+     * @param Request $request
+     * @param int $id
+     * @return string
+     */
+    public static function setEditPerson(Request $request, int $id)
+    {
+        $connection    = self::getConnection();
+        $entityManager = $connection->getEntityManager();
+        $person        = $entityManager->getRepository(EntityPerson::class)->find($id);;
+        self::loadPersonInformationByRequest($person, $request);
+        $entityManager->flush();
+
+        $content = View::render('pages/message', [
+            'title'       => 'Registro alterado com sucesso!',
+            'description' => 'Acesse a consulta de pessoas para visualizar o registro alterado.',
+            'bgCard'      => 'bg-success',
+            'path'        => '/pessoas',
+            'nameAction'  => 'Acessar Consulta',
+        ]);
+
+        return parent::getPage('Home', $content);
     }
 }
