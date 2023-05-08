@@ -22,7 +22,7 @@ class ConnectionBD
     public function __construct()
     {
         $this->createConnection();
-        $this->criaDatabasePlatform();
+        $this->createDatabasePlatform();
         $this->createSchemaManager();
         $this->createTabelasSistema();
     }
@@ -51,19 +51,19 @@ class ConnectionBD
     private function getConfiguracoesBanco(): array
     {
         return [
-            'driver'   => 'pdo_pgsql',
-            'host'     => 'localhost',
-            'port'     => '5432',
-            'user'     => 'postgres',
-            'password' => 'aluno',
-            'dbname'   => 'contatos_php',
+            'driver'   => getenv('DB_DRIV'),
+            'host'     => getenv('DB_HOST'),
+            'port'     => getenv('DB_PORT'),
+            'user'     => getenv('DB_USER'),
+            'password' => getenv('DB_PASS'),
+            'dbname'   => getenv('DB_NAME'),
         ];
     }
 
     /**
      * Cria o objeto DataBasePlatform
      */
-    private function criaDatabasePlatform(): void
+    private function createDatabasePlatform(): void
     {
         $this->DatabasePlataform = $this->Connection->getDatabasePlatform();
     }
