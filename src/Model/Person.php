@@ -2,7 +2,8 @@
 
 namespace App\Model;
 
-use Doctrine\ORM\Mapping as ORM;
+use \Doctrine\ORM\Mapping as ORM,
+    \App\Config\ConnectionBD;
 
 /**
  * @ORM\Entity
@@ -84,7 +85,7 @@ class Person
      * Set the value of id
      *
      * @return  self
-     */ 
+     */
     public function setId($id)
     {
         $this->id = $id;

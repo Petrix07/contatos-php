@@ -18,6 +18,13 @@ $obRouter->get('/pessoas', [
     }
 ]);
 
+/* Rota de pessoas */
+$obRouter->post('/pessoas', [
+    function ($request) {
+        return new Response(200, Pages\Person::getSeachPeople($request));
+    }
+]);
+
 /* Rota que busca o formulário de cadastro de pessoas */
 $obRouter->get('/pessoas/cadastrar', [
     function () {
@@ -33,9 +40,16 @@ $obRouter->post('/pessoas/cadastrar', [
 ]);
 
 /* Rota buscar o formulário de alteração de pessoa  */
+$obRouter->get('/pessoas/visualizar/{id}', [
+    function ($id) {
+        return new Response(200, Pages\Person::getDetailPerson($id));
+    }
+]);
+
+/* Rota buscar o formulário de alteração de pessoa  */
 $obRouter->get('/pessoas/alterar/{id}/edit', [
-    function ( $id) {
-        return new Response(200, Pages\Person::getEditPerson( $id));
+    function ($id) {
+        return new Response(200, Pages\Person::getEditPerson($id));
     }
 ]);
 
@@ -43,6 +57,20 @@ $obRouter->get('/pessoas/alterar/{id}/edit', [
 $obRouter->post('/pessoas/alterar/{id}/edit', [
     function ($request, $id) {
         return new Response(200, Pages\Person::setEditPerson($request, $id));
+    }
+]);
+
+/* Rota para alterar uma pessoa*/
+$obRouter->get('/pessoas/deletar/{id}/delete', [
+    function ($id) {
+        return new Response(200, Pages\Person::getConfirmDeletePerson($id));
+    }
+]);
+
+/* Rota para alterar uma pessoa*/
+$obRouter->post('/pessoas/deletar/{id}/delete', [
+    function ($id) {
+        return new Response(200, Pages\Person::setConfirmDeletePerson($id));
     }
 ]);
 
