@@ -9,3 +9,5 @@
 ### Criando conexão com o banco de dados
 
 Configurar os parâmetros do método Conexao :: getConfiguracoesBanco;
+
+composer install
