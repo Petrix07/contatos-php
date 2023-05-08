@@ -32,6 +32,13 @@ $obRouter->get('/pessoas/cadastrar', [
     }
 ]);
 
+/* Rota de pessoas */
+$obRouter->post('/pessoas/cadastrar', [
+    function ($request) {
+        return new Response(200, Pages\Person::getPersonRegistrationPage());
+    }
+]);
+
 /* Rota de contatos */
 $obRouter->get('/contatos', [
     function () {

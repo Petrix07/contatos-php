@@ -40,6 +40,7 @@ class Person extends Page
         $sContent = View::render('pages/personRegistration', [
             'title'       => 'Cadatrar nova Pessoa',
             'description' => 'Preencha os campos abaixo para gerar um novo registro de pessoa.',
+            'nameAction'  => 'Cadastrar',
         ]);
 
         return parent::getPage('Home', $sContent);
