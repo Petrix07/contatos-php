@@ -11,13 +11,6 @@ $obRouter->get('/', [
     }
 ]);
 
-/* Rota da página Sobre */
-$obRouter->get('/sobre', [
-    function () {
-        return new Response(200, Pages\Sobre::getAbout());
-    }
-]);
-
 /* Rota de pessoas */
 $obRouter->get('/pessoas', [
     function () {
