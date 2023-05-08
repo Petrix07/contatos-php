@@ -18,22 +18,29 @@ $obRouter->get('/pessoas', [
     }
 ]);
 
-/* Rota de pessoas */
+/* Rota que busca o formulário de cadastro de pessoas */
 $obRouter->get('/pessoas/cadastrar', [
     function () {
         return new Response(200, Pages\Person::getFormPerson());
     }
 ]);
 
-/* Rota de pessoas */
+/* Rota para cadastrar pessoas */
 $obRouter->post('/pessoas/cadastrar', [
     function ($request) {
         return new Response(200, Pages\Person::getPageInsertPerson($request));
     }
 ]);
 
-/* Rota de pessoas */
+/* Rota buscar o formulário de alteração de pessoa  */
 $obRouter->post('/pessoas/alterar/{$id}', [
+    function ($request, $id) {
+        return new Response(200, Pages\Person::getEditPersonPage($request, $id));
+    }
+]);
+
+/* Rota para alterar uma pessoa*/
+$obRouter->post('/pessoas/alterar/{$id}/edit', [
     function ($request, $id) {
         return new Response(200, Pages\Person::getEditPersonPage($request, $id));
     }
