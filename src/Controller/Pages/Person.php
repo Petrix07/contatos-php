@@ -18,6 +18,7 @@ class Person extends Page
 
     /**
      * Retorna a tela de consulta de people
+     * @return string
      */
     public static function getPagePeople(): string
     {
@@ -42,16 +43,22 @@ class Person extends Page
         return parent::getPage('Consulta de Pessoas', $sContent);
     }
 
+    /**
+     * Retorna todas as pessoas cadastradas
+     * @return array
+     */
     private static function getAllPeople()
     {
         $connection    = self::getConnection();
         $entityManager = $connection->getEntityManager();
         $personRepo    = $entityManager->getRepository(EntityPerson::class);
+
         return  $personRepo->findAll();
     }
 
     /**
-     * Retorna a página de cadastro de uma nova person
+     * Retorna a página de cadastro de uma nova pessoa
+     * @return string
      */
     public static function getFormPerson(): string
     {
@@ -67,6 +74,7 @@ class Person extends Page
     /**
      * Cadastra uma nova entidade de person
      * @param Request $request
+     * @return string
      */
     public static function getPageInsertPerson(Request $request): string
     {
@@ -104,6 +112,10 @@ class Person extends Page
         $person->setCpf($postVars['cpf']);
     }
 
+    /**
+     * Retorna um objeto de conexão com o banco de dados
+     * @return ConnectionBD
+     */
     private static function getConnection(): ConnectionBD
     {
         return new ConnectionBD();
@@ -114,7 +126,8 @@ class Person extends Page
      * @param Request $request
      * @param int $id
      */
-    public static function getEditPersonPage($request, $id) {
+    public static function getEditPersonPage($request, $id)
+    {
         return '';
     }
 }
