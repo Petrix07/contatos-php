@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="pessoa")
+ * @ORM\Table(name="person")
  */
-class Pessoa
+class Person
 {
     /**
      * @ORM\Id
@@ -20,7 +20,7 @@ class Pessoa
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $nome;
+    private $name;
 
     /**
      * @ORM\Column(type="string", length=14)
@@ -60,22 +60,22 @@ class Pessoa
     }
 
     /**
-     * Retorna o valor de nome
+     * Retorna o valor de name
      * @return string
      */
-    public function getNome(): ?string
+    public function getName(): ?string
     {
-        return $this->nome;
+        return $this->name;
     }
 
     /**
-     * Define o valor de nome
+     * Define o valor de name
      *
      * @return  self
      */
-    public function setNome($nome)
+    public function setname($name)
     {
-        $this->nome = $nome;
+        $this->name = $name;
 
         return $this;
     }
