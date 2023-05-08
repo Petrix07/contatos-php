@@ -5,18 +5,19 @@ namespace App\Controller\Pages;
 use App\Utils\View;
 
 /**
+ * Controller para a entidade Contato
  * @author - Luiz Fernando Petris
  * @since - 06/05/2023
  */
-class Sobre extends Page
+class Contact extends Page
 {
 
-    public static function getAbout(): string
+    
+    public static function getPageContacts(): string
     {
-        //colocar como sobre"about" - pages/about
         $sContent = View::render('pages/home', [
-            'title'       => 'Bem vindo!',
-            'description' => 'Página SOBRE da aplicação'
+            'title'       => 'Consulta de Contatos',
+            'description' => 'Página de Contato da aplicação'
         ]);
 
         return parent::getPage('Home', $sContent);

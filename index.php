@@ -2,10 +2,14 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-use App\Http\Router,
-    App\Utils\View;
+use \App\Http\Router,
+    \App\Utils\View,
+    \WilliamCosta\DotEnv\Environment;
 
-define('URL', 'http://localhost/contatos-php');
+
+Environment::load(__DIR__);
+
+define('URL', getenv('URL'));
 
 View::init(['URL' => URL]);
 

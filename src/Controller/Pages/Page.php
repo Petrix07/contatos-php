@@ -22,6 +22,7 @@ abstract class Page
     public static function getPage(string $title, string $content): string {
         return View::render('pages/page', [
             'title'   => $title,
+            'title'   => $title,
             'header'  => self::getHeader(),
             'content' => $content
         ]);

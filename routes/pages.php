@@ -14,21 +14,28 @@ $obRouter->get('/', [
 /* Rota da página Sobre */
 $obRouter->get('/sobre', [
     function () {
-        return new Response(200, Pages\Sobre::getAbout  ());
+        return new Response(200, Pages\Sobre::getAbout());
     }
 ]);
 
-/* Rota dinâmica */
+/* Rota de pessoas */
 $obRouter->get('/pessoas', [
     function () {
-        return new Response(200, 'Página Pessoas');
+        return new Response(200, Pages\Person::getPagePeople());
     }
 ]);
 
-/* Rota dinâmica */
-$obRouter->get('/contatoss', [
+/* Rota de pessoas */
+$obRouter->get('/pessoas/cadastrar', [
     function () {
-        return new Response(200, 'Página Contatos');
+        return new Response(200, Pages\Person::getPersonRegistrationPage());
+    }
+]);
+
+/* Rota de contatos */
+$obRouter->get('/contatos', [
+    function () {
+        return new Response(200, Pages\Contact::getPageContacts());
     }
 ]);
 
