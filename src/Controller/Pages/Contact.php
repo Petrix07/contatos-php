@@ -60,7 +60,7 @@ class Contact extends Page implements IController
      */
     public static function getDetailsContact($id): string
     {
-        $contact       = EntityContact::findRegisterById($id, EntityContact::class);
+        $contact = EntityContact::findRegisterById($id, EntityContact::class);
         $content = View::render('pages/contact/details', [
             'title'              => 'Detalhes do contato',
             'description'        => 'Abaixo está presente todos os dados de do contato.',
@@ -72,7 +72,7 @@ class Contact extends Page implements IController
             'nameAction'         => 'Retornar a consulta'
         ]);
 
-        return parent::getPage('Visualizar pessoa', $content);
+        return parent::getPage('Visualizar contato', $content);
     }
 
     /**
@@ -81,20 +81,13 @@ class Contact extends Page implements IController
      */
     public static function getNewContact(): string
     {
-        $people = self::getModelController()->getAll(EntityPerson::class);
-        $componentePeople = '';
-        foreach ($people as $person) {
-            $componentePeople .= View::render('pages/contact/componentPerson', [
-                'idPerson'   => $person->getId(),
-                'namePerson' => $person->getName()
-            ]);
-        }
-
+        $componentPeople = self::getComponentPeople();
         $content = View::render('pages/contact/form', [
             'title'              => 'Cadastro de contato',
             'description'        => 'Preencha as informações de contato.',
             'id'                 => null,
-            'componentPerson'    => $componentePeople,
+            'componentPerson'    => $componentPeople,
+            'selected'           => 'selected',
             'type'               => null,
             'namePerson'         => null,
             'descriptionContact' => null,
@@ -104,6 +97,19 @@ class Contact extends Page implements IController
         return parent::getPage('Cadastrar contato', $content);
     }
 
+    private static function getComponentPeople()
+    {
+        $people = self::getModelController()->getAll(EntityPerson::class);
+        $componentPeople = '';
+        foreach ($people as $person) {
+            $componentPeople .= View::render('pages/contact/componentPerson', [
+                'idPerson'   => $person->getId(),
+                'namePerson' => $person->getName()
+            ]);
+        }
+
+        return $componentPeople;
+    }
 
     /**
      * Cadastra uma nova entidade de contact
@@ -128,12 +134,79 @@ class Contact extends Page implements IController
     }
 
     /**
-     * Carrega o objeto Contato com base nos dados presentes no POST da request
+     * Carrega o objeto contato com base nos dados presentes no POST da request
      */
     private static function loadContactInformationByRequest(EntityContact $contact, $request): void
     {
         $postVars = $request->getPostVars();
         $contact->setType($postVars['type']);
         $contact->setDescription($postVars['descriptionContact']);
+    }
+
+    /**
+     * Retorna o formulário de edição de pessoas
+     * @param int $id
+     * @return string
+     */
+    public static function getEditContact(int $id): string
+    {
+        $contact           = EntityContact::findRegisterById($id, EntityContact::class);
+        $contentPeopleBase = self::getComponentPeople();
+        $componentPeople   = self::setSelectedPerson($contentPeopleBase, $contact);
+        $content = View::render('pages/contact/form', [
+            'title'              => 'Cadastro de contato',
+            'description'        => 'Preencha as informações de contato.',
+            'id'                 => $contact->getId(),
+            'componentPerson'    => $componentPeople,
+            'selected'           => 'selected',
+            'type'               => $contact->getType(),
+            'namePerson'         => $contact->getPerson()->getName(),
+            'descriptionContact' => $contact->getDescription(),
+            'nameAction'         => 'Alterar'
+        ]);
+
+        return parent::getPage('Editar Contato', $content);
+    }
+
+    /**
+     * Seleciona o item da lista de acordo com o id presente na pessoa definida no contato
+     * @param string $componentPeople
+     * @param EntityContact $contact
+     * @return string
+     */
+    private static function setSelectedPerson(string $componentPeople, EntityContact $contact): string
+    {
+        $str = 'value="' . $contact->getPerson()->getId() . '"';
+        return str_replace($str, $str . ' selected', $componentPeople);
+    }
+
+    /**
+     * Edita a pessoa informada
+     * @param Request $request
+     * @param int $id
+     * @return string
+     */
+    public static function setEditContact(Request $request, int $id)
+    {
+        $connection    = EntityContact::getConnection();
+        $entityManager = $connection->getEntityManager();
+        $contact       = $entityManager->getRepository(EntityContact::class)->find($id);
+
+        if ($request->getPostVars()['personId'] != $contact->getPerson()->getId()) {
+            $person = $entityManager->getReference(EntityPerson::class, $request->getPostVars()['personId']);
+            $contact->setPerson($person);
+        }
+        self::loadContactInformationByRequest($contact, $request);
+        $entityManager->flush();
+
+        $content = View::render('pages/message', [
+            'title'       => 'Registro alterado com sucesso!',
+            'description' => 'Acesse a consulta de contatos para visualizar o registro alterado.',
+            'bgCard'      => 'bg-success',
+            'path'        => '/contatos',
+            'nameAction'  => 'Acessar Consulta',
+        ]);
+
+        return parent::getPage('Home', $content);
     }
 }

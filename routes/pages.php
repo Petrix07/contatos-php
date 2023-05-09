@@ -102,3 +102,17 @@ $obRouter->post('/contatos/cadastrar', [
         return new Response(200, Pages\Contact::insertNewContact($request));
     }
 ]);
+
+/* Rota buscar o formulário de alteração de pessoa  */
+$obRouter->get('/contatos/alterar/{id}/edit', [
+    function ($id) {
+        return new Response(200, Pages\Contact::getEditContact($id));
+    }
+]);
+
+/* Rota para alterar uma pessoa*/
+$obRouter->post('/contatos/alterar/{id}/edit', [
+    function ($request, $id) {
+        return new Response(200, Pages\Contact::setEditContact($request, $id));
+    }
+]);
