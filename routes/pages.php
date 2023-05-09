@@ -89,14 +89,14 @@ $obRouter->get('/contatos/visualizar/{id}', [
 ]);
 
 
-/* Rota da visualização do contato */
+/* Rota para obter o formulário de cadastro de contato */
 $obRouter->get('/contatos/cadastrar', [
     function ($request) {
         return new Response(200, Pages\Contact::getNewContact($request));
     }
 ]);
 
-/* Rota da visualização do contato */
+/* Rota para cadastrar um novo contato */
 $obRouter->post('/contatos/cadastrar', [
     function ($request) {
         return new Response(200, Pages\Contact::insertNewContact($request));
