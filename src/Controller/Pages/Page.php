@@ -7,7 +7,6 @@ use \App\Utils\View,
 
 abstract class Page
 {
-
     /**
      * Retorna o header da aplicação
      * @return string 
@@ -30,12 +29,4 @@ abstract class Page
         ]);
     }
 
-    /**
-     * Retorna um objeto de conexão com o banco de dados
-     * @return ConnectionBD
-     */
-    protected static function getConnection(): ConnectionBD
-    {
-        return new ConnectionBD();
-    }
 }

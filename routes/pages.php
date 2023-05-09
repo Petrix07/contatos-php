@@ -35,7 +35,7 @@ $obRouter->get('/pessoas/cadastrar', [
 /* Rota para cadastrar pessoas */
 $obRouter->post('/pessoas/cadastrar', [
     function ($request) {
-        return new Response(200, Pages\Person::getPageInsertPerson($request));
+        return new Response(200, Pages\Person::insertNewPerson($request));
     }
 ]);
 
@@ -85,5 +85,20 @@ $obRouter->get('/contatos', [
 $obRouter->get('/contatos/visualizar/{id}', [
     function ($id) {
         return new Response(200, Pages\Contact::getDetailsContact($id));
+    }
+]);
+
+
+/* Rota da visualização do contato */
+$obRouter->get('/contatos/cadastrar', [
+    function ($request) {
+        return new Response(200, Pages\Contact::getNewContact($request));
+    }
+]);
+
+/* Rota da visualização do contato */
+$obRouter->post('/contatos/cadastrar', [
+    function ($request) {
+        return new Response(200, Pages\Contact::insertNewContact($request));
     }
 ]);

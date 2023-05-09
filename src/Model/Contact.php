@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="contact")
  */
-class Contact
+class Contact extends Model
 {
     /**
      * @ORM\Id

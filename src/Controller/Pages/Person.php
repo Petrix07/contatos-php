@@ -4,23 +4,32 @@ namespace App\Controller\Pages;
 
 use \App\Http\Request,
     \App\Utils\View,
-    \App\Model\Person as EntityPerson;
+    \App\Model\Person as EntityPerson,
+    \App\Interface\IController;
 
 /**
  * Controller para a entidade Person
  * @author - Luiz Fernando Petris
  * @since - 06/05/2023
  */
-class Person extends Page
+class Person extends Page implements IController
 {
+    /**
+     * @inheritdoc
+     * @return EntityPerson
+     */
+    public static function getModelController()
+    {
+        return new EntityPerson();
+    }
 
     /**
-     * Retorna a tela de consulta de Pessoas
+     * Retorna a tela de consulta de pessoas
      * @return string
      */
     public static function getPagePeople(): string
     {
-        $people = self::getAllPeople();
+        $people = self::getModelController()->getAll(EntityPerson::class);
         $contentPeople = '';
         if (count($people)) {
             foreach ($people as $person) {
@@ -58,7 +67,7 @@ class Person extends Page
             if (strpos(strtolower($person->getName()), strtolower($search)) !== false) {
                 return $person;
             }
-        }, self::getAllPeople()));
+        },  self::getModelController()->getAll(EntityPerson::class)));
 
         $contentPeople = '';
         if (count($people)) {
@@ -82,19 +91,6 @@ class Person extends Page
     }
 
     /**
-     * Retorna todas as pessoas cadastradas
-     * @return array
-     */
-    private static function getAllPeople()
-    {
-        $connection    = self::getConnection();
-        $entityManager = $connection->getEntityManager();
-        $personRepo    = $entityManager->getRepository(EntityPerson::class);
-
-        return  $personRepo->findAll();
-    }
-
-    /**
      * Retorna a página de cadastro de uma nova pessoa
      * @return string
      */
@@ -112,18 +108,15 @@ class Person extends Page
     }
 
     /**
-     * Cadastra uma nova entidade de person
+     * Cadastra um novo registro de pessoa
      * @param Request $request
      * @return string
      */
-    public static function getPageInsertPerson(Request $request): string
+    public static function insertNewPerson(Request $request): string
     {
         $newPerson = new EntityPerson();
         self::loadPersonInformationByRequest($newPerson, $request);
-        $connectiononnection = self::getConnection();
-        $entityManager       = $connectiononnection->getEntityManager();
-        $entityManager->persist($newPerson);
-        $entityManager->flush();
+        $newPerson->insertNewRegister($newPerson);
 
         $content = View::render('pages/message', [
             'title'       => 'Registro incluído com sucesso!',
@@ -139,7 +132,7 @@ class Person extends Page
     /**
      * Carrega o objeto Pessoa com base nos dados presentes no POST da request
      */
-    private static function loadPersonInformationByRequest(EntityPerson $person, $request)
+    private static function loadPersonInformationByRequest(EntityPerson $person, $request): void
     {
         $postVars = $request->getPostVars();
         $person->setName($postVars['name']);
@@ -153,9 +146,7 @@ class Person extends Page
      */
     public static function getEditPerson(int $id): string
     {
-        $connection    = self::getConnection();
-        $entityManager = $connection->getEntityManager();
-        $person        = $entityManager->getRepository(EntityPerson::class)->find($id);
+        $person = EntityPerson::findRegisterById($id, EntityPerson::class);
         $content = View::render('pages/person/form', [
             'title'       => 'Alterar informações da pessoa.',
             'description' => 'Preencha os campos abaixo para alterar as informações de pessoa.',
@@ -175,7 +166,7 @@ class Person extends Page
      */
     public static function setEditPerson(Request $request, int $id)
     {
-        $connection    = self::getConnection();
+        $connection    = EntityPerson::getConnection();
         $entityManager = $connection->getEntityManager();
         $person        = $entityManager->getRepository(EntityPerson::class)->find($id);
         self::loadPersonInformationByRequest($person, $request);
@@ -199,15 +190,14 @@ class Person extends Page
      */
     public static function getDetailsPerson(int $id): string
     {
-        $connection    = self::getConnection();
-        $entityManager = $connection->getEntityManager();
-        $person        = $entityManager->getRepository(EntityPerson::class)->find($id);
+        $person  = EntityPerson::findRegisterById($id, EntityPerson::class);
         $content = View::render('pages/person/details', [
             'title'       => 'Detalhes da pessoa',
             'description' => 'Abaixo está presente todos os dados de pessoa.',
             'name'        => $person->getName(),
             'cpf'         => $person->getCpf(),
-            'nameAction'  => 'Editar',
+            'path'        => '/pessoas',
+            'nameAction'  => 'Retornar a consulta',
         ]);
 
         return parent::getPage('Visualizar pessoa', $content);
@@ -220,9 +210,7 @@ class Person extends Page
      */
     public static function getConfirmDeletePerson(int $id): string
     {
-        $connection    = self::getConnection();
-        $entityManager = $connection->getEntityManager();
-        $person        = $entityManager->getRepository(EntityPerson::class)->find($id);
+        $person  = EntityPerson::findRegisterById($id, EntityPerson::class);
         $content = View::render('pages/person/delete', [
             'title'       => 'Você realmente deseja excluir este registro?',
             'description' => "Nome da pessoa que será excluída: {$person->getName()}",
@@ -238,10 +226,7 @@ class Person extends Page
      */
     public static function setConfirmDeletePerson(int $id): string
     {
-        $connection    = self::getConnection();
-        $entityManager = $connection->getEntityManager();
-        $entityManager->remove($entityManager->getRepository(EntityPerson::class)->find($id));
-        $entityManager->flush();
+        EntityPerson::removeRegisterById($id, EntityPerson::class);
 
         $content = View::render('pages/message', [
             'title'       => 'Registro excluído com sucesso!',

@@ -8,8 +8,13 @@ use \Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="person")
  */
-class Person
+class Person extends Model
 {
+    public static function getEntityClass()
+    {
+        return Person::class;
+    }
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
