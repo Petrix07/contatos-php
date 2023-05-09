@@ -4,8 +4,9 @@ namespace App\Controller\Pages;
 
 use \App\Http\Request,
     \App\Utils\View,
+    App\Interface\IController,
     \App\Model\Contact as EntityContact,
-    App\Interface\IController;
+    \App\Model\Person as EntityPerson;
 
 /**
  * Controller para a entidade Contato
@@ -16,14 +17,13 @@ class Contact extends Page implements IController
 {
     /**
      * @inheritdoc
-     * @return EntityContactt
+     * @return EntityContact
      */
     public static function getModelController()
     {
         return new EntityContact();
     }
 
-    
     /**
      * Retorna a tela de consulta de contatos
      * @return string
@@ -53,6 +53,11 @@ class Contact extends Page implements IController
         return parent::getPage('Consulta de contatos', $content);
     }
 
+    /**
+     * Abre o formulário de visualização do contato informado
+     * @param int $id
+     * @return string
+     */
     public static function getDetailsContact($id): string
     {
         $contact       = EntityContact::findRegisterById($id, EntityContact::class);
@@ -76,20 +81,27 @@ class Contact extends Page implements IController
      */
     public static function getNewContact(): string
     {
-
+        $people = self::getModelController()->getAll(EntityPerson::class);
+        $componentePeople = '';
+        foreach ($people as $person) {
+            $componentePeople .= View::render('pages/contact/componentPerson', [
+                'idPerson'   => $person->getId(),
+                'namePerson' => $person->getName()
+            ]);
+        }
 
         $content = View::render('pages/contact/form', [
-            'title'              => 'Detalhes do contato',
-            'description'        => 'Abaixo está presente todos os dados de do contato.',
+            'title'              => 'Cadastro de contato',
+            'description'        => 'Preencha as informações de contato.',
             'id'                 => null,
+            'componentPerson'    => $componentePeople,
             'type'               => null,
-            'namecontact'        => null,
+            'namePerson'         => null,
             'descriptionContact' => null,
-            'path'               => '/contatos/cadastrar',
             'nameAction'         => 'Cadastrar'
         ]);
 
-        return parent::getPage('Cadastrar pessoa', $content);
+        return parent::getPage('Cadastrar contato', $content);
     }
 
 
@@ -100,18 +112,15 @@ class Contact extends Page implements IController
      */
     public static function insertNewContact(Request $request): string
     {
-        $newcontact = new EntityContact();
-        self::loadContactInformationByRequest($newcontact, $request);
-        $connectiononnection = self::getConnection();
-        $entityManager       = $connectiononnection->getEntityManager();
-        $entityManager->persist($newcontact);
-        $entityManager->flush();
+        $newContact = new EntityContact();
+        self::loadContactInformationByRequest($newContact, $request);
+        $newContact->insertNewContact($newContact, $request->getPostVars()['personId']);
 
         $content = View::render('pages/message', [
             'title'       => 'Registro incluído com sucesso!',
-            'description' => 'Acesse a consulta de pessoas para visualizar o novo registro inserido.',
+            'description' => 'Acesse a consulta de contatos para visualizar o novo registro inserido.',
             'bgCard'      => 'bg-success',
-            'path'        => '/pessoas',
+            'path'        => '/contatos',
             'nameAction'  => 'Acessar Consulta',
         ]);
 
@@ -124,11 +133,7 @@ class Contact extends Page implements IController
     private static function loadContactInformationByRequest(EntityContact $contact, $request): void
     {
         $postVars = $request->getPostVars();
-        echo "<pre>";
-        print_r($postVars);
-        echo "</pre>";
-        exit;
-        $contact->setType($postVars['name']);
+        $contact->setType($postVars['type']);
         $contact->setDescription($postVars['descriptionContact']);
     }
 }

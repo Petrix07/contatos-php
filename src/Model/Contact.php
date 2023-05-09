@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping as ORM, \App\Model\Person as Person;
 
 /**
  * @ORM\Entity
@@ -28,8 +28,8 @@ class Contact extends Model
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Person", inversedBy="contacts")
-     * @ORM\JoinColumn(name="person_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="Person", cascade={"persist"})
+     * @ORM\JoinColumn(name="person_id", referencedColumnName="id")
      */
     private $person;
 
@@ -111,5 +111,19 @@ class Contact extends Model
         $this->person = $person;
 
         return $this;
+    }
+
+    /**
+     * Insere o registro informado
+     * @param $register
+     */
+    public static function insertNewContact($newContact, $personId): void
+    {
+        $connectiononnection = self::getConnection();
+        $entityManager       = $connectiononnection->getEntityManager();
+        $person              = $entityManager->getReference(Person::class, $personId);
+        $newContact->setPerson($person);
+        $entityManager->persist($newContact);
+        $entityManager->flush();
     }
 }

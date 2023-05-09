@@ -57,6 +57,13 @@ abstract class Model
         return $entityManager->getRepository($class)->find($id);
     }
 
+    public static function persist($obj): void
+    {
+        $connection    = self::getConnection();
+        $entityManager = $connection->getEntityManager();
+        $entityManager->persist($obj);
+    }
+
     public static function removeRegisterById($id, $class)
     {
         $connection    = self::getConnection();
