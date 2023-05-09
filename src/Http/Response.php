@@ -51,7 +51,7 @@ class Response
      * Método responsável por alterar o content type do response 
      * @param string $contentType
      */
-    public function setContentType(string $contentType)
+    public function setContentType(string $contentType): void
     {
         $this->contentType = $contentType;
         $this->addHeader('Content-Type', $contentType);
@@ -60,7 +60,7 @@ class Response
     /**
      * Método responsável por adicionar um registro no cabeçalho de response
      */
-    public function addHeader(string $key, string $value)
+    public function addHeader(string $key, string $value): void
     {
         $this->headers[$key] = $value;
     }
@@ -68,7 +68,7 @@ class Response
     /**
      * Envia os "headers" ao navegador
      */
-    private function sendHeaders()
+    private function sendHeaders(): void
     {
         http_response_code($this->httpCode);
 
@@ -80,7 +80,7 @@ class Response
     /**
      * Envia a resposta para o usuário
      */
-    public function sendResponse()
+    public function sendResponse(): void
     {
         $this->sendHeaders();
         switch ($this->contentType) {
