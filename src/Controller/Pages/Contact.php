@@ -181,7 +181,7 @@ class Contact extends Page implements IController
     }
 
     /**
-     * Edita a pessoa informada
+     * Altera o contato informado
      * @param Request $request
      * @param int $id
      * @return string
