@@ -209,4 +209,40 @@ class Contact extends Page implements IController
 
         return parent::getPage('Home', $content);
     }
+
+    /**
+     * Abre a mensagem de confirmação para a exclusão do registro
+     * @param int $id
+     * @return string
+     */
+    public static function getConfirmDeleteContact(int $id): string
+    {
+        $contact = EntityContact::findRegisterById($id, EntityContact::class);
+        $content = View::render('pages/person/delete', [
+            'title'       => 'Você realmente deseja excluir este registro?',
+            'description' => "Descrição do contato que será apagado: {$contact->getDescription()}",
+        ]);
+
+        return parent::getPage('Excluir contato', $content);
+    }
+
+    /**
+     * Deleta o registro informado
+     * @param int $id
+     * @return string
+     */
+    public static function setConfirmDeleteContact(int $id): string
+    {
+        EntityContact::removeRegisterById($id, EntityContact::class);
+
+        $content = View::render('pages/message', [
+            'title'       => 'Registro excluído com sucesso!',
+            'description' => 'Acesse a consulta de contatos para visualizar os demais registros.',
+            'bgCard'      => 'bg-success',
+            'path'        => '/contatos',
+            'nameAction'  => 'Acessar Consulta',
+        ]);
+
+        return parent::getPage('Home', $content);
+    }
 }

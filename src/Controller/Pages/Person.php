@@ -5,6 +5,7 @@ namespace App\Controller\Pages;
 use \App\Http\Request,
     \App\Utils\View,
     \App\Model\Person as EntityPerson,
+    \App\Model\Contact as EntityContact,
     \App\Interface\IController;
 
 /**
@@ -211,11 +212,21 @@ class Person extends Page implements IController
     public static function getConfirmDeletePerson(int $id): string
     {
         $person  = EntityPerson::findRegisterById($id, EntityPerson::class);
-        $content = View::render('pages/person/delete', [
+        $contact = EntityPerson::findByCondition(EntityContact::class, 'person', $id);
+
+        $content = $contact 
+        ? View::render('pages/message', [
+            'title'       => 'Você não pode apagar o registro pois ele está associado a um contato!',
+            'description' => 'Acesse a consulta de contatos e remova o registro associado antes de excluir esta pessoa. Contato associado: ' .  $contact->getDescription(),
+            'bgCard'      => 'bg-warning',
+            'path'        => '/pessoas',
+            'nameAction'  => 'Acessar Consulta',
+        ]) 
+        :  View::render('pages/person/delete', [
             'title'       => 'Você realmente deseja excluir este registro?',
             'description' => "Nome da pessoa que será excluída: {$person->getName()}",
         ]);
-
+            
         return parent::getPage('Excluir pessoa', $content);
     }
 

@@ -64,11 +64,19 @@ abstract class Model
         $entityManager->persist($obj);
     }
 
-    public static function removeRegisterById($id, $class)
+    public static function removeRegisterById($id, $class): void
     {
         $connection    = self::getConnection();
         $entityManager = $connection->getEntityManager();
         $entityManager->remove($entityManager->getRepository($class)->find($id));
         $entityManager->flush();
+    }
+
+
+    public static function findByCondition($class, string $name, string $value)
+    {
+        $connection    = self::getConnection();
+        $entityManager = $connection->getEntityManager();
+        return $entityManager->getRepository($class)->findOneBy([$name => $value]);
     }
 }

@@ -116,3 +116,17 @@ $obRouter->post('/contatos/alterar/{id}/edit', [
         return new Response(200, Pages\Contact::setEditContact($request, $id));
     }
 ]);
+
+/* Rota para alterar uma contato*/
+$obRouter->get('/contatos/deletar/{id}/delete', [
+    function ($id) {
+        return new Response(200, Pages\Contact::getConfirmDeleteContact($id));
+    }
+]);
+
+/* Rota para alterar uma contato*/
+$obRouter->post('/contatos/deletar/{id}/delete', [
+    function ($id) {
+        return new Response(200, Pages\Contact::setConfirmDeleteContact($id));
+    }
+]);
