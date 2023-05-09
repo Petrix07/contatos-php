@@ -83,7 +83,7 @@ class ConnectionBD
     /**
      * Cria as tabelas utilizadas pela aplicação
      */
-    private function createTabelasSistema()
+    private function createTabelasSistema(): void
     {
         if (!$this->SchemaManager->tablesExist('person')) {
             $this->createTablePerson();
@@ -94,7 +94,7 @@ class ConnectionBD
     }
 
     /**
-     * Cria a tabela para a entidade "Pessoa"
+     * Cria a tabela para a entidade "Person"
      */
     private function createTablePerson(): void
     {
@@ -109,7 +109,10 @@ class ConnectionBD
         }
     }
 
-    private function createTableContact()
+    /**
+     * Cria a tabela para a entidade "Contact"
+     */
+    private function createTableContact(): void
     {
         $table = new Table('contact');
         $table->addColumn('id',          'integer', ['unsigned' => true, 'autoincrement' => true]);
