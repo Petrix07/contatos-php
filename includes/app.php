@@ -2,8 +2,7 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-use App\Http\Router,
-    App\Utils\View;
+use App\Utils\View;
 
 define('URL', 'http://localhost/contatos-php');
 
