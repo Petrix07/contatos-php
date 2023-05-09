@@ -4,7 +4,7 @@ namespace App\Controller\Pages;
 
 use \App\Http\Request,
     \App\Utils\View,
-    App\Interface\IController,
+    \App\Interface\IController,
     \App\Model\Contact as EntityContact,
     \App\Model\Person as EntityPerson;
 
@@ -97,7 +97,11 @@ class Contact extends Page implements IController
         return parent::getPage('Cadastrar contato', $content);
     }
 
-    private static function getComponentPeople()
+    /**
+     * Retorna o HTML que deve ser inserido no componente de pessoas
+     * @return string
+     */
+    private static function getComponentPeople(): string
     {
         $people = self::getModelController()->getAll(EntityPerson::class);
         $componentPeople = '';
@@ -112,7 +116,7 @@ class Contact extends Page implements IController
     }
 
     /**
-     * Cadastra uma nova entidade de contact
+     * Cadastra uma nova entidade de contato
      * @param Request $request
      * @return string
      */
@@ -144,7 +148,7 @@ class Contact extends Page implements IController
     }
 
     /**
-     * Retorna o formulário de edição de pessoas
+     * Retorna o formulário de edição de contato
      * @param int $id
      * @return string
      */
@@ -186,7 +190,7 @@ class Contact extends Page implements IController
      * @param int $id
      * @return string
      */
-    public static function setEditContact(Request $request, int $id)
+    public static function setEditContact(Request $request, int $id): string
     {
         $connection    = EntityContact::getConnection();
         $entityManager = $connection->getEntityManager();
