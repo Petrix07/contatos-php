@@ -2,9 +2,11 @@
 
 namespace App\Controller\Pages;
 
-use \App\Utils\View,
-    \App\Config\ConnectionBD;
+use \App\Utils\View;
 
+/**
+ * Classe abstrata responsável por disponibilizar os métodos comuns aos controladores de páginas
+ */
 abstract class Page
 {
     /**
@@ -18,6 +20,8 @@ abstract class Page
 
     /**
      * Retorna o conteúdo da view
+     * @param string $title
+     * @param string $content
      * @return string 
      */
     public static function getPage(string $title, string $content): string
@@ -28,5 +32,4 @@ abstract class Page
             'content' => $content
         ]);
     }
-
 }

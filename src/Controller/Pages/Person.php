@@ -9,7 +9,7 @@ use \App\Http\Request,
     \App\Interface\IController;
 
 /**
- * Controller para a entidade Person
+ * Controller da entidade Person
  * @author - Luiz Fernando Petris
  * @since - 06/05/2023
  */
@@ -214,19 +214,19 @@ class Person extends Page implements IController
         $person  = EntityPerson::findRegisterById($id, EntityPerson::class);
         $contact = EntityPerson::findByCondition(EntityContact::class, 'person', $id);
 
-        $content = $contact 
-        ? View::render('pages/message', [
-            'title'       => 'Você não pode apagar o registro pois ele está associado a um contato!',
-            'description' => 'Acesse a consulta de contatos e remova o registro associado antes de excluir esta pessoa. Contato associado: ' .  $contact->getDescription(),
-            'bgCard'      => 'bg-warning',
-            'path'        => '/pessoas',
-            'nameAction'  => 'Acessar Consulta',
-        ]) 
-        :  View::render('pages/person/delete', [
-            'title'       => 'Você realmente deseja excluir este registro?',
-            'description' => "Nome da pessoa que será excluída: {$person->getName()}",
-        ]);
-            
+        $content = $contact
+            ? View::render('pages/message', [
+                'title'       => 'Você não pode apagar o registro pois ele está associado a um contato!',
+                'description' => 'Acesse a consulta de contatos e remova o registro associado antes de excluir esta pessoa. Contato associado: ' .  $contact->getDescription(),
+                'bgCard'      => 'bg-warning',
+                'path'        => '/pessoas',
+                'nameAction'  => 'Acessar Consulta',
+            ])
+            :  View::render('pages/person/delete', [
+                'title'       => 'Você realmente deseja excluir este registro?',
+                'description' => "Nome da pessoa que será excluída: {$person->getName()}",
+            ]);
+
         return parent::getPage('Excluir pessoa', $content);
     }
 

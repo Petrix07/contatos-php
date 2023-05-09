@@ -9,7 +9,7 @@ use \App\Http\Request,
     \App\Model\Person as EntityPerson;
 
 /**
- * Controller para a entidade Contato
+ * Controller da entidade Contato
  * @author - Luiz Fernando Petris
  * @since - 06/05/2023
  */
