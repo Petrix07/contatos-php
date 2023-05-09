@@ -88,7 +88,6 @@ $obRouter->get('/contatos/visualizar/{id}', [
     }
 ]);
 
-
 /* Rota para obter o formulário de cadastro de contato */
 $obRouter->get('/contatos/cadastrar', [
     function ($request) {
@@ -103,28 +102,28 @@ $obRouter->post('/contatos/cadastrar', [
     }
 ]);
 
-/* Rota buscar o formulário de alteração de pessoa  */
+/* Rota buscar o formulário de alteração de contato  */
 $obRouter->get('/contatos/alterar/{id}/edit', [
     function ($id) {
         return new Response(200, Pages\Contact::getEditContact($id));
     }
 ]);
 
-/* Rota para alterar uma pessoa*/
+/* Rota para alterar um contato*/
 $obRouter->post('/contatos/alterar/{id}/edit', [
     function ($request, $id) {
         return new Response(200, Pages\Contact::setEditContact($request, $id));
     }
 ]);
 
-/* Rota para alterar uma contato*/
+/* Rota para deletar um contato*/
 $obRouter->get('/contatos/deletar/{id}/delete', [
     function ($id) {
         return new Response(200, Pages\Contact::getConfirmDeleteContact($id));
     }
 ]);
 
-/* Rota para alterar uma contato*/
+/* Rota para deletar um contato*/
 $obRouter->post('/contatos/deletar/{id}/delete', [
     function ($id) {
         return new Response(200, Pages\Contact::setConfirmDeleteContact($id));
