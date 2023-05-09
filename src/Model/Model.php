@@ -57,6 +57,10 @@ abstract class Model
         return $entityManager->getRepository($class)->find($id);
     }
 
+    /**
+     * Persiste o objeto informado
+     * @param object $obj
+     */
     public static function persist($obj): void
     {
         $connection    = self::getConnection();
@@ -64,7 +68,12 @@ abstract class Model
         $entityManager->persist($obj);
     }
 
-    public static function removeRegisterById($id, $class): void
+    /**
+     * Remove o registro pela chave
+     * @param int $id
+     * @param $class
+     */
+    public static function removeRegisterById(int $id, $class): void
     {
         $connection    = self::getConnection();
         $entityManager = $connection->getEntityManager();
@@ -72,7 +81,13 @@ abstract class Model
         $entityManager->flush();
     }
 
-
+    /**
+     * Busca um registro com base em uma condição
+     * @param $class
+     * @param string $name
+     * @param string $value
+     * @return obj
+     */
     public static function findByCondition($class, string $name, string $value)
     {
         $connection    = self::getConnection();

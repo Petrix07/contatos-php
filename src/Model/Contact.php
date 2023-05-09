@@ -115,9 +115,10 @@ class Contact extends Model
 
     /**
      * Insere o registro informado
-     * @param $register
+     * @param Contact $register
+     * @param int $personId
      */
-    public static function insertNewContact($newContact, $personId): void
+    public static function insertNewContact(Contact $newContact, int $personId): void
     {
         $connectiononnection = self::getConnection();
         $entityManager       = $connectiononnection->getEntityManager();
